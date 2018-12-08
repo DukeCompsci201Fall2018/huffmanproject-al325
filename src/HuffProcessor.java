@@ -111,13 +111,31 @@ public class HuffProcessor {
 	}
 	
 	public void writeHeader(HuffNode root, BitOutputStream out) {
-		if (root.myRight == null && root.myLeft == null) {
-			
+		HuffNode current = root;
+		if (current.myRight == null && current.myLeft == null) {
+			out.writeBits(1, 1);
+			out.writeBits(BITS_PER_WORD + 1, current.myValue);
+		}
+		else {
+			out.writeBits(1,0);
+			current = current.myLeft;
+			current = current.myRight;
 		}
 	}
 	
 	public void writeCompressedBits(String[] codings, BitInputStream in, BitOutputStream out) {
-		
+		while(true) {
+			int bits = in.readBits(BITS_PER_WORD);
+			if (bits == -1) {
+				break;
+			}
+			else {
+				String code = codings[bits];
+				out.writeBits(code.length(), Integer.parseInt(code,2));
+			}
+		}
+		String code1 = codings[PSEUDO_EOF];
+		out.writeBits(code1.length(), Integer.parseInt(code1,2));
 	}
 	/**
 	 * Decompresses a file. Output file must be identical bit-by-bit to the
