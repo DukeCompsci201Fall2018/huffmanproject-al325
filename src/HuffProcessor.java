@@ -69,7 +69,7 @@ public class HuffProcessor {
 			else {
 				freqs[bits] = 1 + freqs[bits];
 				//if (myDebugLevel >= DEBUG_HIGH) {
-					System.out.print(bits + freqs[bits]);
+					System.out.println(bits + freqs[bits]);
 				//}
 			}
 		}
@@ -218,8 +218,5 @@ public class HuffProcessor {
 				}
 			}
 		}
-	}
-	public static void main(String args[]) {
-		HuffProcessor hp = new HuffProcessor(4);
 	}
 }
